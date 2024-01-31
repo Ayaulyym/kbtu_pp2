@@ -9,109 +9,109 @@ print("Hello, World!")
 
 #SYNTAX
  #exm1
- if 5 > 2:
-   print("Five is greater than two!")
+if 5 > 2:
+  print("Five is greater than two!")
  
  #exm2
- Syntax Error:
- if 5 > 2:
- print("Five is greater than two!")
+SyntaxError:
+if 5 > 2:
+  print("Five is greater than two!")
  
  #exm3
- if 5 > 2:
+if 5 > 2:
   print("Five is greater than two!") 
- if 5 > 2:
+if 5 > 2:
          print("Five is greater than two!")
  
  #exm4
- Syntax Error:
- if 5 > 2:
+SyntaxError:
+if 5 > 2:
   print("Five is greater than two!")
-         print("Five is greater than two!")
+  print("Five is greater than two!")
 
 #COMMENTS
  #exm1
  #This is a comment
- print("Hello, World!")
+print("Hello, World!")
  
  #exm2
- print("Hello, World!") #This is a comment
+print("Hello, World!") #This is a comment
 
  #exm3
  #print("Hello, World!")
- print("Cheers, Mate!")
+print("Cheers, Mate!")
 
  #exm4
  #This is a comment
  #written in
  #more than just one line
- print("Hello, World!")
+print("Hello, World!")
 
  #exm5
- """
+"""
  This is a comment
  written in
  more than just one line
  """
- print("Hello, World!")
+print("Hello, World!")
 
 #VARIABLES
  #exm1
- x = 5
- y = "John"
- print(x)
- print(y)
+x = 5
+y = "John"
+print(x)
+print(y)
 
  #exm2
-  x = 4       # x is of type int
- x = "Sally" # x is now of type str
- print(x)
+x = 4       # x is of type int
+x = "Sally" # x is now of type str
+print(x)
 
  #exm3
- x = str(3)    # x will be '3'
- y = int(3)    # y will be 3
- z = float(3)  # z will be 3.0
+x = str(3)    # x will be '3'
+y = int(3)    # y will be 3
+z = float(3)  # z will be 3.0
 
  #exm4
 
- x = 5
- y = "John"
- print(type(x))
- print(type(y))
+x = 5
+y = "John"
+print(type(x))
+print(type(y))
 
  #exm5
- x = "John"
+x = "John"
  # is the same as
- x = 'John'
+x = 'John'
 
  #exm6
- a = 4
- A = "Sally"
+a = 4
+A = "Sally"
  #A will not overwrite a
 
  #exm7
- myvar = "John"
- my_var = "John"
- _my_var = "John"
- myVar = "John"
- MYVAR = "John"
- myvar2 = "John"
+myvar = "John"
+my_var = "John"
+_my_var = "John"
+myVar = "John"
+MYVAR = "John"
+myvar2 = "John"
 
  #exm8
- 2myvar = "John"
- my-var = "John"
- my var = "John"
+myvar = "John"
+my-var = "John"
+my var = "John"
 
  #exm9
- x, y, z = "Orange", "Banana", "Cherry"
- print(x)
- print(y)
- print(z)
+x, y, z = "Orange", "Banana", "Cherry"
+print(x)
+print(y)
+print(z)
 
  #exm10
-  x = y = z = "Orange"
- print(x)
- print(y)
+x = y = z = "Orange"
+print(x)
+print(y)
  print(z)
  
  #exm11
@@ -267,7 +267,7 @@ print("Hello, World!")
  
 #CASTING
 #exm1
-  x = int(1)   # x will be 1
+ x = int(1)   # x will be 1
  y = int(2.8) # y will be 2
  z = int("3") # z will be 3
 
@@ -322,7 +322,7 @@ print("Hello, World!")
    print("Yes, 'free' is present.")
 
  #exm8
-  txt = "The best things in life are free!"
+txt = "The best things in life are free!"
  if "expensive" not in txt:
    print("No, 'expensive' is NOT present.")
 
@@ -333,16 +333,16 @@ print("Hello, World!")
 
 
  #exm10
-  b = "Hello, World!"
- print(b[2:])
+b = "Hello, World!"
+print(b[2:])
 
  #exm11
-  b = "Hello, World!"
- print(b[-5:-2])
+b = "Hello, World!"
+print(b[-5:-2])
 
- #exm12
-  a = "Hello, World!"
- print(a.upper())
+ #exm12 
+a = "Hello, World!"
+print(a.upper())
 
  #exm13
  a = "Hello, World!"
