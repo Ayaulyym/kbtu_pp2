@@ -13,7 +13,7 @@ if 5 > 2:
   print("Five is greater than two!")
  
  #exm2
-SyntaxError:
+SyntaxError
 if 5 > 2:
   print("Five is greater than two!")
  
@@ -24,7 +24,7 @@ if 5 > 2:
          print("Five is greater than two!")
  
  #exm4
-SyntaxError:
+SyntaxError
 if 5 > 2:
   print("Five is greater than two!")
   print("Five is greater than two!")
@@ -32,7 +32,7 @@ if 5 > 2:
 #COMMENTS
  #exm1
  #This is a comment
-print("Hello, World!")
+  print("Hello, World!")
  
  #exm2
 print("Hello, World!") #This is a comment
@@ -99,19 +99,19 @@ myvar2 = "John"
 
  #exm8
 myvar = "John"
-my-var = "John"
-my var = "John"
+ #my-var = "John"
+ #my var = "John"
 
- #exm9
-x, y, z = "Orange", "Banana", "Cherry"
-print(x)
-print(y)
-print(z)
+#exm9
+ x, y, z = "Orange", "Banana", "Cherry"
+ print(x)
+ print(y)
+ print(z)
 
  #exm10
-x = y = z = "Orange"
-print(x)
-print(y)
+ x = y = z = "Orange"
+ print(x)
+ print(y)
  print(z)
  
  #exm11
@@ -170,7 +170,7 @@ print(y)
  print("Python is " + x)
 
  #exm20
-  def myfunc():
+ def myfunc():
    global x
    x = "fantastic"
 
@@ -179,7 +179,7 @@ print(y)
  print("Python is " + x)
 
  #exm21
-   x = "awesome"
+ x = "awesome"
 
  def myfunc():
    global x
@@ -322,7 +322,7 @@ print(y)
    print("Yes, 'free' is present.")
 
  #exm8
-txt = "The best things in life are free!"
+ #txt = "The best things in life are free!"
  if "expensive" not in txt:
    print("No, 'expensive' is NOT present.")
 
@@ -333,23 +333,23 @@ txt = "The best things in life are free!"
 
 
  #exm10
-b = "Hello, World!"
-print(b[2:])
+ b = "Hello, World!"
+ print(b[2:])
 
  #exm11
-b = "Hello, World!"
-print(b[-5:-2])
+ b = "Hello, World!"
+ print(b[-5:-2])
 
  #exm12 
-a = "Hello, World!"
-print(a.upper())
+ a = "Hello, World!"
+ print(a.upper())
 
  #exm13
  a = "Hello, World!"
  print(a.lower())
 
  #exm14
-  a = " Hello, World! "
+ a = " Hello, World! "
  print(a.strip()) # returns "Hello, World!"
 
  #exm15
@@ -357,51 +357,42 @@ print(a.upper())
  print(a.replace("H", "J"))
 
  #exm16
-   a = "Hello"
+ a = "Hello" 
  b = "World"
  c = a + b
  print(c)
 
  #exm17
-  a = "Hello"
+ a = "Hello"
  b = "World"
  c = a + " " + b
  print(c)
 
  #exm18
-  age = 36
+ age = 36
  txt = "My name is John, I am " + age
  print(txt)
 
 
  #exm19
-   age = 36
+ age = 36
  txt = "My name is John, and I am {}"
  print(txt.format(age))
 
  #exm20
-   quantity = 3
+ quantity = 3
  itemno = 567
  price = 49.95
  myorder = "I want {} pieces of item {} for {} dollars."
  print(myorder.format(quantity, itemno, price))
 
  #exm21
-  quantity = 3
+ quantity = 3
  itemno = 567
  price = 49.95
  myorder = "I want to pay {2} dollars for {0} pieces of item {1}."
  print(myorder.format(quantity, itemno, price))
 
  #exm22
-  txt = "We are the so-called "Vikings" from the north."
-
-
-
-
-
-
-
-
-
+ #txt = "We are the so-called "Vikings" from the north."
 
