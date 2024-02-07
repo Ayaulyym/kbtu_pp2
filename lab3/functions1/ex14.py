@@ -1,5 +1,5 @@
-from palindrom_11 import is_palindrom
-from converter_1 import grams_to_ounces
+from ex11 import IsPalindrom
+from ex1 import grams_to_ounces
 
-print(is_palindrom("aba"))
+print(IsPalindrom("aba"))
 print(grams_to_ounces(5))
