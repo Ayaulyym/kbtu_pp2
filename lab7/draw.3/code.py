@@ -35,7 +35,7 @@ while running:
         x += vel     
     if keys[pygame.K_UP] and y>=0: 
         y -= vel    
-    if keys[pygame.K_DOWN] and y<=500-height: 
+    if keys[pygame.K_DOWN]  and y<=500-height: 
         y += vel 
     screen.fill((255,255,255))
     pygame.draw.circle(screen, (255, 0, 0), (x,y), 25) 
