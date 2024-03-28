@@ -18,15 +18,19 @@ def handler():
     global current, paused
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+
             return False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_n:
+                    
                     current = (current + 1) % len(playlist)
                     start_playing(playlist, current)
             elif event.key == pygame.K_p:
+                    
                     current = (current - 1) % len(playlist)
                     start_playing(playlist, current)    
             elif event.key == pygame.K_SPACE:
+                 
                  paused = not paused
                  if paused:
                       pygame.mixer.music.pause() 
@@ -51,6 +55,7 @@ create_playlist(playlist, "muz1.erikpe.mp3")
 create_playlist(playlist, "muz2.imlove.mp3")
 create_playlist(playlist, "muz3.saymyname.mp3")
 create_playlist(playlist, "muz4.gashykpyn.mp3")
+
 
 start_playing(playlist)
 

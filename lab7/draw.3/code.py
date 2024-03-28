@@ -6,7 +6,9 @@ screen = pygame.display.set_mode((550,500))
 
 clock = pygame.time.Clock()
 running = True
+
 screen.fill((255,250,255))
+
 pygame.display.set_caption("Draw Circle")
 
 pygame.display.flip()
@@ -22,7 +24,7 @@ y = 250
   
 width = 50
 height = 50
-  
+
 vel = 20
 
 while running:
