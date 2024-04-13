@@ -23,19 +23,19 @@ def handler():
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_n:
                     
-                    current = (current + 1) % len(playlist)
-                    start_playing(playlist, current)
+                current = (current + 1) % len(playlist)
+                start_playing(playlist, current)
             elif event.key == pygame.K_p:
-                    
-                    current = (current - 1) % len(playlist)
-                    start_playing(playlist, current)    
+                
+                current = (current - 1) % len(playlist)
+                start_playing(playlist, current)    
             elif event.key == pygame.K_SPACE:
                  
-                 paused = not paused
-                 if paused:
-                      pygame.mixer.music.pause() 
-                 else:
-                      pygame.mixer.music.unpause()
+                paused = not paused
+                if paused:
+                    pygame.mixer.music.pause() 
+                else:
+                    pygame.mixer.music.unpause()
                  
     return True
 
