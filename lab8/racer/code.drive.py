@@ -41,7 +41,7 @@ game_over = font.render("Game Over", True, BLUE)
 class Coin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("img/coin.jpg" )
+        self.image = pygame.image.load("img/coin.png" )
         self.rect = self.image.get_rect()
         self.reset()  # Initialize coin position
 
