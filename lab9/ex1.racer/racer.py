@@ -141,6 +141,7 @@ while True:
         for coin in Cash:
             coin.reset()
         
+
         
     pygame.display.update()
     FPS.tick(60)

@@ -53,7 +53,6 @@ playlist = [ ]
 
 create_playlist(playlist, "muz1.erikpe.mp3")
 create_playlist(playlist, "muz2.imlove.mp3")
-create_playlist(playlist, "muz3.saymyname.mp3")
 create_playlist(playlist, "muz4.gashykpyn.mp3")
 
 
