@@ -9,9 +9,9 @@ window_title = pygame.display.set_caption("Clock")
 clock = pygame.time.Clock()
 
 
-bg_surf = pygame.image.load(r"IMAGE/clock.png")
-sec_surf = pygame.image.load(r"IMAGE/sec.png")
-min_surf = pygame.image.load(r"IMAGE/min.png")
+bg_surf = pygame.image.load("IMAGE/clock.png")
+sec_surf = pygame.image.load("IMAGE/sec.png")
+min_surf = pygame.image.load("IMAGE/min.png")
 bg_rect = bg_surf.get_rect(center = (400, 400))
 
 done = False

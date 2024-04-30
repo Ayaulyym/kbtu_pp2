@@ -27,7 +27,7 @@ while True:
             if event.type == pygame.KEYDOWN:
                 True
                 if event.key == pygame.K_w and ctrl_held:
-                    True
+                  True
                 if event.key == pygame.K_F4 and alt_held:
                     True
                 if event.key == pygame.K_ESCAPE:
