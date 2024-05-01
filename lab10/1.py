@@ -25,11 +25,11 @@ try:
     #create a new table
     with connection.cursor() as cursor:
         # Удаление существующей таблицы (если она существует)
-        cursor.execute("DROP TABLE IF EXISTS users;")
+        #cursor.execute("DROP TABLE IF EXISTS users;")
         
         # Создание новой таблицы
         cursor.execute("""
-            CREATE TABLE users (
+            CREATE TABLE IF NOT EXISTS users (
                 id serial PRIMARY KEY,
                 name varchar(50) NOT NULL,
                 phone_number varchar(50) NOT NULL
@@ -45,8 +45,8 @@ try:
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """INSERT INTO users (name, phone_number) VALUES
-    #         ('name', ',number'),
-    #         ('Aaaa', '87078874747');"""
+    #         ('Ayaulym', '87775552112'),
+    #         ('Amina', '87476551221');"""
     #     )
     #     print(f"[INFO] Data was succesfully inserted")
 
@@ -56,30 +56,30 @@ try:
     #get data from a table
     # with connection.cursor() as cursor:
     #     cursor.execute(
-    #         """SELECT * FROM users WHERE name = 'name'"""
+    #         """SELECT * FROM users WHERE name = 'Ayaulym'"""
             
     #     )
     #     print(cursor.fetchone())
     #     cursor.execute(
-    #         """SELECT * FROM users WHERE phone_number = '8707254744424'"""
+    #         """SELECT * FROM users WHERE phone_number = '87476551221'"""
     #     )
     #     print(cursor.fetchone())
 
 
 
     # РАБОТА С CSV-ФАЙЛОМ
-    # Открываем CSV-файл для чтения
-
 
     # РАБОТА С CSV-ФАЙЛОМ
-    with open('PhoneBook.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        next(reader)  # Пропускаем заголовок
-        for row in reader:
-            cursor.execute(
-                "INSERT INTO users (name, phone_number) VALUES (%s, %s)",
-                (row[0], row[1])
-            )
+    with connection.cursor() as cursor:
+        # Открываем CSV-файл для чтения
+        with open('PhoneBook.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  # Пропускаем заголовок
+            for row in reader:
+                cursor.execute(
+                    "INSERT INTO users (name, phone_number) VALUES (%s, %s)",
+                    (row[0], row[1])
+                )
         print("[INFO] Data was successfully inserted")
 
 
@@ -96,19 +96,24 @@ try:
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """DELETE FROM users WHERE id = """
-            
     #     )
+
+    # Удалить все записи
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """DELETE FROM users"""
+    #     )
+
     # #УДАЛИТЬ ЗАПИСЬ ПО ИМЕНИ
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """DELETE FROM users WHERE name = """
-            
     #     )
+
     #УДАЛИТЬ ЗАПИСЬ ПО НОМЕРУ
     # with connection.cursor() as cursor:
     #     cursor.execute(
-    #         """DELETE FROM users WHERE phone_number = """
-            
+    #         """DELETE FROM users WHERE phone_number = 'номер'"""
     #     )
 
     #ОБНОВИТЬ ИМЯ ПО НОМЕРУ ТЕЛЕФОНА
@@ -125,25 +130,37 @@ try:
     #         """UPDATE users
     #         SET phone_number = 'новый-номер' 
     #         WHERE name = по имени"""
-            
     #     )
+
     # #ОБНОВИТЬ ИМЯ ПО АЙДИ
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """UPDATE users
     #         SET id = 'новое имя' 
     #         WHERE name = по номеру"""
-            
     #     )
+
     # #ОБНОВИТЬ НОМЕР ТЕЛЕФОНА ПО АЙДИ
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """UPDATE users
     #         SET phone_number = 'новый-номер' 
-    #         WHERE name = по имени"""
-            
+    #         WHERE name = 'имя'"""
     #     )
+
+    # ВЫВОД ВСЕХ ПОЛЬЗОВАТЕЛЕЙ С ТАБЛИЦЫ
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """SELECT * FROM users"""
+        )
+        print(cursor.fetchall())
 
 
 except Exception as _ex:
     print("[INFO] Error while working with PostgreSQL", _ex)
+
+finally:
+    if connection:
+        #cursor.close()
+        connection.close()
+        print("[INFO] PostgreSQL connection closed")
