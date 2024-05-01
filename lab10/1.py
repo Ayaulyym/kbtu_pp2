@@ -68,6 +68,8 @@ try:
 
 
     # РАБОТА С CSV-ФАЙЛОМ
+
+    # РАБОТА С CSV-ФАЙЛОМ
     with connection.cursor() as cursor:
         # Открываем CSV-файл для чтения
         with open('PhoneBook.csv', newline='') as csvfile:
@@ -84,24 +86,28 @@ try:
 
 
     #delete a table(УДАЛИТЬ ВСЮ ТАБЛИЦУ)
-    #with connection.cursor() as cursor:
-    #    cursor.execute(
-    #        """DROP TABLE users;"""
-    #   )
-    #  print("[INFO] Table was deleted")
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """DROP TABLE users;"""
+    #     )
+    #     print("[INFO] Table was deleted")
 
     # #УДАЛИТЬ ЗАПИСЬ ПО АЙДИ
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """DELETE FROM users WHERE id = """
-            
+    #     )
+
+    # Удалить все записи
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """DELETE FROM users"""
     #     )
 
     # #УДАЛИТЬ ЗАПИСЬ ПО ИМЕНИ
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """DELETE FROM users WHERE name = """
-            
     #     )
 
     #УДАЛИТЬ ЗАПИСЬ ПО НОМЕРУ
@@ -124,7 +130,6 @@ try:
     #         """UPDATE users
     #         SET phone_number = 'новый-номер' 
     #         WHERE name = по имени"""
-            
     #     )
 
     # #ОБНОВИТЬ ИМЯ ПО АЙДИ
@@ -133,7 +138,6 @@ try:
     #         """UPDATE users
     #         SET id = 'новое имя' 
     #         WHERE name = по номеру"""
-            
     #     )
 
     # #ОБНОВИТЬ НОМЕР ТЕЛЕФОНА ПО АЙДИ
