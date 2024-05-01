@@ -1,4 +1,4 @@
 host = "localhost"
 user = "postgres"
-password = "3101"
+password = "AZAMAT"
 db_name = "phonebook"
