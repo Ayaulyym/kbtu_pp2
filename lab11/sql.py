@@ -1,14 +1,13 @@
 import psycopg2
-import csv
-from lab11.config import host, user, password, db_name
+from config import host, user, password, db_name
 
 try:
     #connect to exist database
     connection = psycopg2.connect(
                               host=host,
-        user=user,
-        password=password,
-        database=db_name
+                              user=user,
+                              password=password,
+                              database=db_name
     )
 
     connection.autocommit = True
@@ -24,30 +23,30 @@ try:
     
     
     #create a new table
-    with connection.cursor() as cursor:
-        # Удаление существующей таблицы (если она существует)
-        cursor.execute("DROP TABLE IF EXISTS users;")
+    # with connection.cursor() as cursor:
+    #     # Удаление существующей таблицы (если она существует)
+    #     cursor.execute("DROP TABLE IF EXISTS users;")
         
-        # Создание новой таблицы
-        cursor.execute("""
-            CREATE TABLE users (
-                id serial PRIMARY KEY,
-                name varchar(50) NOT NULL,
-                phone_number varchar(50) NOT NULL
-            )
-        """)
-        print(f"[INFO] Table created successfully")
+    #     # Создание новой таблицы
+    #     cursor.execute("""
+    #         CREATE TABLE users (
+    #             id serial PRIMARY KEY,
+    #             name varchar(50) NOT NULL,
+    #             phone_number varchar(50) NOT NULL
+    #         )
+    #     """)
+    #     print(f"[INFO] Table created successfully")
         
 
 
 
     #ВВОД ДАННЫХ В ТАБЛИЦУ
-    #insert data into a table
+    # #insert data into a table
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """INSERT INTO users (name, phone_number) VALUES
-    #         ('Zhumabek', '87072547241'),
-    #         ('Zhumabeadasf', '8707254724444');"""
+    #         ('Ayaulym', '87774589554'), 
+    #         ('Aaaayaulym', '870725472444');"""
     #     )
     #     print(f"[INFO] Data was succesfully inserted")
 
@@ -57,7 +56,7 @@ try:
     #get data from a table
     # with connection.cursor() as cursor:
     #     cursor.execute(
-    #         """SELECT * FROM users WHERE name = 'Zhumabek'"""
+    #         """SELECT * FROM users WHERE name = 'Ayaulym'"""
             
     #     )
     #     print(cursor.fetchone())
@@ -65,24 +64,6 @@ try:
     #         """SELECT * FROM users WHERE phone_number = '8707254744424'"""
     #     )
     #     print(cursor.fetchone())
-
-
-
-    # РАБОТА С CSV-ФАЙЛОМ
-    # Открываем CSV-файл для чтения
-
-
-    # РАБОТА С CSV-ФАЙЛОМ
-    with open('name_number.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        next(reader)  # Пропускаем заголовок
-        for row in reader:
-            cursor.execute(
-                "INSERT INTO users (name, phone_number) VALUES (%s, %s)",
-                (row[0], row[1])
-            )
-        print("[INFO] Data was successfully inserted")
-
 
 
 
@@ -124,10 +105,10 @@ try:
     # with connection.cursor() as cursor:
     #     cursor.execute(
     #         """UPDATE users
-    #         SET phone_number = 'новый-номер' 
-    #         WHERE name = по имени"""
+    #         SET phone_number = 'номер новый' 
+    #         WHERE name = 'новый нейм'"""
             
-    #     )
+    #   )
     # #ОБНОВИТЬ ИМЯ ПО АЙДИ
     # with connection.cursor() as cursor:
     #     cursor.execute(
