@@ -1,166 +1,113 @@
 import psycopg2
 import csv
-from config import host, user, password, db_name
+from config import Error
 
-try:
-    #connect to exist database
-    connection = psycopg2.connect(
-        host=host,
-        user=user,
-        password=password,
-        database=db_name
-    )
-    connection.autocommit = True
-    
-    #the cursor for perfoming database operations
-    #cursor = connection.cursor()
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT version();"
-        )
-        print(f"Server version: {cursor.fetchone()}")
-    
-    
-    
-    #create a new table
-    with connection.cursor() as cursor:
-        # Удаление существующей таблицы (если она существует)
-        #cursor.execute("DROP TABLE IF EXISTS users;")
-        
-        # Создание новой таблицы
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS users (
-                id serial PRIMARY KEY,
-                name varchar(50) NOT NULL,
-                phone_number varchar(50) NOT NULL
-            )
-        """)
-        print(f"[INFO] Table created successfully")
-        
+connection = psycopg2.connect(host = "localhost",
+                              user = "postgres",
+                              password = "AZAMAT",
+                              database = "phonebook",
+                              port="5432")
+
+cursor = connection.cursor()
+
+def hello():
+    print("What you want?(1 - Insert, 2 - Update, 3 - Delete, 4 - Query):")
+    way = input()
+    if way == "1":
+        print("What way to insert?(C - Console, F - CSV)")
+        ins = input()
+        return ins
+    elif way == "2":
+        return "U"
+    elif way == "3":
+        return "D"
+    elif way == "4":
+        return "Q"
 
 
+def insert_from_console():
+    print("Введите данные:")
+    username = input()
+    phone = input()
+    sql  = f'''INSERT INTO PhoneBook(username, phone) VALUES ('{username}', '{phone}'); '''
+    cursor.execute(sql)
 
-    #ВВОД ДАННЫХ В ТАБЛИЦУ
-    #insert data into a table
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """INSERT INTO users (name, phone_number) VALUES
-    #         ('Ayaulym', '87775552112'),
-    #         ('Amina', '87476551221');"""
-    #     )
-    #     print(f"[INFO] Data was succesfully inserted")
+def insert_from_csv():
+    with open('PhoneBook.csv', 'r') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        for row in csv_reader:
+            sql = f"INSERT INTO PhoneBook (username, phone) VALUES (%s, %s)"
+            cursor.execute(sql, row)
 
+def delete():
+    print("What's username do u want delete?")
+    user = input()
+    sql = f'''DELETE FROM PhoneBook WHERE username = '{user}';'''
+    cursor.execute(sql)
 
+def update():
+    print("What do u want update? (1 - username, 2 - phone)")
+    if input() == "1":
+        print("What's old username")
+        old_user = input()
+        print("What's new username?")
+        new_user = input()
+        sql = f'''UPDATE PhoneBook SET username = '{new_user}' WHERE username = '{old_user}'; '''
+    elif input() == "2":
+        print("What's old phone")
+        old_phone = input()
+        print("What's new phone?")
+        new_phone = input()
+        sql = f'''UPDATE PhoneBook SET phone = '{new_phone}' WHERE phone = '{old_phone}'; '''
+    cursor.execute(sql)
 
-    #Получения данных с таблицы
-    #get data from a table
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """SELECT * FROM users WHERE name = 'Ayaulym'"""
-            
-    #     )
-    #     print(cursor.fetchone())
-    #     cursor.execute(
-    #         """SELECT * FROM users WHERE phone_number = '87476551221'"""
-    #     )
-    #     print(cursor.fetchone())
+def query():
+    print("What's column do u want? (1 - username, 2 - phone, 3 - all)")
+    select = input()
+    print("Do u have filter for query? (1 - YES, 2 - NO)")
+    isFilter = input()
+    if isFilter == "1":
+        print("What's filter?")
+        condition = input()
+    else:
+        condition = None
+    if condition:
+        if select == "1":
+            sql = f'''SELECT username FROM PhoneBook WHERE {condition};'''
+        elif select == "2":
+            sql = f'''SELECT phone FROM PhoneBook WHERE {condition};'''
+        else:
+            sql = f'''SELECT * FROM PhoneBook WHERE {condition};'''
+    else:
+        if select == "1":
+            sql = f'''SELECT username FROM PhoneBook;'''
+        elif select == "2":
+            sql = f'''SELECT phone FROM PhoneBook;'''
+        else:
+            sql = f'''SELECT * FROM PhoneBook;'''
+    cursor.execute(sql)
+    answer = cursor.fetchall()
+    for row in answer:
+        print(row)
 
+what = hello()
 
+if what == "C":
+    insert_from_console()
+elif what == "F":
+    insert_from_csv()
+elif what == "D":
+    delete()
+elif what == "U":
+    update()
+elif what == "Q":
+    query()
 
-    # РАБОТА С CSV-ФАЙЛОМ
-
-    # РАБОТА С CSV-ФАЙЛОМ
-    with connection.cursor() as cursor:
-        # Открываем CSV-файл для чтения
-        with open('PhoneBook.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile)
-            next(reader)  # Пропускаем заголовок
-            for row in reader:
-                cursor.execute(
-                    "INSERT INTO users (name, phone_number) VALUES (%s, %s)",
-                    (row[0], row[1])
-                )
-        print("[INFO] Data was successfully inserted")
-
-
-
-
-    #delete a table(УДАЛИТЬ ВСЮ ТАБЛИЦУ)
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """DROP TABLE users;"""
-    #     )
-    #     print("[INFO] Table was deleted")
-
-    # #УДАЛИТЬ ЗАПИСЬ ПО АЙДИ
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """DELETE FROM users WHERE id = """
-    #     )
-
-    # Удалить все записи
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """DELETE FROM users"""
-    #     )
-
-    # #УДАЛИТЬ ЗАПИСЬ ПО ИМЕНИ
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """DELETE FROM users WHERE name = """
-    #     )
-
-    #УДАЛИТЬ ЗАПИСЬ ПО НОМЕРУ
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """DELETE FROM users WHERE phone_number = 'номер'"""
-    #     )
-
-    #ОБНОВИТЬ ИМЯ ПО НОМЕРУ ТЕЛЕФОНА
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """UPDATE users
-    #         SET name = 'новое-имя' 
-    #         WHERE phone_number = номер телефона """
-            
-    #     )
-    # #ОБНОВИТЬ НОМЕР ТЕЛЕФОНА ПО ИМЕНИ
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """UPDATE users
-    #         SET phone_number = 'новый-номер' 
-    #         WHERE name = по имени"""
-    #     )
-
-    # #ОБНОВИТЬ ИМЯ ПО АЙДИ
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """UPDATE users
-    #         SET id = 'новое имя' 
-    #         WHERE name = по номеру"""
-    #     )
-
-    # #ОБНОВИТЬ НОМЕР ТЕЛЕФОНА ПО АЙДИ
-    # with connection.cursor() as cursor:
-    #     cursor.execute(
-    #         """UPDATE users
-    #         SET phone_number = 'новый-номер' 
-    #         WHERE name = 'имя'"""
-    #     )
-
-    # ВЫВОД ВСЕХ ПОЛЬЗОВАТЕЛЕЙ С ТАБЛИЦЫ
-    with connection.cursor() as cursor:
-        cursor.execute(
-            """SELECT * FROM users"""
-        )
-        print(cursor.fetchall())
+connection.commit()
+print("Succes!")
 
 
-except Exception as _ex:
-    print("[INFO] Error while working with PostgreSQL", _ex)
-
-finally:
-    if connection:
-        #cursor.close()
-        connection.close()
-        print("[INFO] PostgreSQL connection closed")
+if connection:
+    cursor.close()
+    connection.close()
+    print("Соединение с PostgreSQL закрыто")

@@ -1,97 +1,156 @@
-import psycopg2, csv
+import psycopg2
+import csv
+from lab11.config import host, user, password, db_name
 
-# Connect to the database
-conn = psycopg2.connect(
-    host='localhost',
-    dbname='phonebook',
-    user='postgres',
-    password='AZAMAT',
-)
-cur = conn.cursor()
-def disentry(page):
-    cur.execute("SELECT * FROM phonebook")
-    rows = cur.fetchall()
-    i = 0
-    limit = 10 * page
-    for row in rows:
-        if i < limit and i >= limit - 10:
-            print(row)
-        i+=1
-    print(f"Page 1 / {len(rows) // 10 + 1}")
-    page = input("Enter page or Q for quit: ")
-    if page == "Q" or page == "q":
-        page = 1000
-    if 1 <= int(page) <= len(rows) // 10 + 1:
-        disentry(page)
-    conn.commit()
-def datausers(data):
-    incorrect = []
-    for d in data:
-        name, number = d
-        if len(number) != 4 or not number.isdigit():
-            incorrect.append(d)
-            continue
-        cur.execute("INSERT INTO PhoneBook (name, number) VALUES (%s, %s)", (name, number))
-    print(incorrect)
-    conn.commit()
-    cur.close()
+try:
+    #connect to exist database
+    connection = psycopg2.connect(
+                              host=host,
+        user=user,
+        password=password,
+        database=db_name
+    )
+
+    connection.autocommit = True
     
-def update(name, number):
-    cur.execute("SELECT COUNT(*) FROM phonebook WHERE name = %s", (name,))
-    count = cur.fetchone()[0]
-    if count == 0:
-        cur.execute("INSERT INTO phonebook (name, number) VALUES (%s, %s)", (name, number,))
-    else:
-        cur.execute("UPDATE phonebook SET number = %s WHERE name = %s", (number, name,))
-    conn.commit()
-    cur.close()
-while True:
-    print("1 - insert csv, 2 - insert console, 3 - update, 4 - search, 5 - search part, 6 - select, 7 - delete, 8 - exit, 9 - datausers")
-    n = input()
-    if n == '1':
-        file = input("File name:")
-        with open(file+".csv", "r") as f:
-                reader = csv.reader(f, delimiter=",")
-                for row in reader:
-                    cur.execute("""INSERT INTO PhoneBook VALUES(%s,%s) returning *;""", row)
-                conn.commit()
-    elif n == '2':
-        name = input("Enter name: ")
-        number = input("Enter phone number: ")
-        cur.execute("INSERT INTO phonebook (name, number) VALUES (%s, %s)", (name, number))
-        conn.commit()
-    elif n == '3':
-        name = input("Enter name: ")
-        number = input("Enter phone number: ")
-        update(name, number)
-    elif n == '4':
-        name = input("Enter name to search: ")
-        cur.execute("SELECT * FROM phonebook WHERE name ILIKE %s", (name,))
-        rows = cur.fetchall()
-        for r in rows:
-            print(r)
-        conn.commit()
-    elif n == '5':
-        part = input("Enter part to search: ")
-        cur.execute(f"SELECT * FROM phonebook WHERE name ILIKE %s OR number ILIKE %s", ('%'+part+'%', '%'+part+'%'))
-        rows = cur.fetchall()
-        cur.close()
-        for row in rows:
-            print(row)
-        conn.commit()
-    elif n == '6':
-        disentry(1)
-    elif n == '7':  
-        part = input("delete name of part or phone:")
-        cur.execute("DELETE FROM phonebook WHERE name ILIKE %s OR number ILIKE %s", ('%'+part+'%', '%'+part+'%',))
-        conn.commit()
-    elif n == '8':
-        break
-    elif n == '9':
-        data = [("Ippoe", "1234"), ("Uzaki", "9877"), ("Tyson", "11564")]
-        datausers(data)
-    else:
-        print("Please try again, your server is loser")
-     
+    #the cursor for perfoming database operations
+    #cursor = connection.cursor()
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT version();"
+        )
+        print(f"Server version: {cursor.fetchone()}")
+    
+    
+    
+    #create a new table
+    with connection.cursor() as cursor:
+        # Удаление существующей таблицы (если она существует)
+        cursor.execute("DROP TABLE IF EXISTS users;")
+        
+        # Создание новой таблицы
+        cursor.execute("""
+            CREATE TABLE users (
+                id serial PRIMARY KEY,
+                name varchar(50) NOT NULL,
+                phone_number varchar(50) NOT NULL
+            )
+        """)
+        print(f"[INFO] Table created successfully")
+        
 
-conn.close()
+
+
+    #ВВОД ДАННЫХ В ТАБЛИЦУ
+    #insert data into a table
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """INSERT INTO users (name, phone_number) VALUES
+    #         ('Zhumabek', '87072547241'),
+    #         ('Zhumabeadasf', '8707254724444');"""
+    #     )
+    #     print(f"[INFO] Data was succesfully inserted")
+
+
+
+    #Получения данных с таблицы
+    #get data from a table
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """SELECT * FROM users WHERE name = 'Zhumabek'"""
+            
+    #     )
+    #     print(cursor.fetchone())
+    #     cursor.execute(
+    #         """SELECT * FROM users WHERE phone_number = '8707254744424'"""
+    #     )
+    #     print(cursor.fetchone())
+
+
+
+    # РАБОТА С CSV-ФАЙЛОМ
+    # Открываем CSV-файл для чтения
+
+
+    # РАБОТА С CSV-ФАЙЛОМ
+    with open('name_number.csv', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  # Пропускаем заголовок
+        for row in reader:
+            cursor.execute(
+                "INSERT INTO users (name, phone_number) VALUES (%s, %s)",
+                (row[0], row[1])
+            )
+        print("[INFO] Data was successfully inserted")
+
+
+
+
+    #delete a table(УДАЛИТЬ ВСЮ ТАБЛИЦУ)
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """DROP TABLE users;"""
+    #     )
+    #     print("[INFO] Table was deleted")
+
+    # #УДАЛИТЬ ЗАПИСЬ ПО АЙДИ
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """DELETE FROM users WHERE id = """
+            
+    #     )
+    # #УДАЛИТЬ ЗАПИСЬ ПО ИМЕНИ
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """DELETE FROM users WHERE name = """
+            
+    #     )
+    #УДАЛИТЬ ЗАПИСЬ ПО НОМЕРУ
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """DELETE FROM users WHERE phone_number = """
+            
+    #     )
+
+    #ОБНОВИТЬ ИМЯ ПО НОМЕРУ ТЕЛЕФОНА
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """UPDATE users
+    #         SET name = 'новое-имя' 
+    #         WHERE phone_number = номер телефона """
+            
+    #     )
+    # #ОБНОВИТЬ НОМЕР ТЕЛЕФОНА ПО ИМЕНИ
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """UPDATE users
+    #         SET phone_number = 'новый-номер' 
+    #         WHERE name = по имени"""
+            
+    #     )
+    # #ОБНОВИТЬ ИМЯ ПО АЙДИ
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """UPDATE users
+    #         SET id = 'новое имя' 
+    #         WHERE name = по номеру"""
+            
+    #     )
+    # #ОБНОВИТЬ НОМЕР ТЕЛЕФОНА ПО АЙДИ
+    # with connection.cursor() as cursor:
+    #     cursor.execute(
+    #         """UPDATE users
+    #         SET phone_number = 'новый-номер' 
+    #         WHERE name = по имени"""
+            
+    #     )
+
+
+
+except Exception as _ex:
+    print("[INFO] Error while working with PostgreSQL", _ex)
+finally:
+    if connection:
+        #cursor.close()
+        connection.close()
+        print("[INFO] PostgreSQL connection closed")
